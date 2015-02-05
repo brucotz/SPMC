@@ -1026,6 +1026,8 @@ int CXBMCRenderManager::AddVideoPicture(DVDVideoPicture& pic)
 #if defined(TARGET_ANDROID)
   else if(pic.format == RENDER_FMT_MEDIACODEC)
     m_pRenderer->AddProcessor(pic.mediacodec, index);
+  else if (pic.format == RENDER_FMT_BYPASS || pic.format == RENDER_FMT_EGLIMG)
+	  m_pRenderer->AddProcessor(pic.render_ctx, index);
 #endif
 #ifdef HAS_IMXVPU
   else if(pic.format == RENDER_FMT_IMXMAP)
@@ -1035,8 +1037,6 @@ int CXBMCRenderManager::AddVideoPicture(DVDVideoPicture& pic)
   else if(pic.format == RENDER_FMT_MMAL)
     m_pRenderer->AddProcessor(pic.MMALBuffer, index);
 #endif
-  else if(pic.format == RENDER_FMT_BYPASS || pic.format == RENDER_FMT_EGLIMG)
-    m_pRenderer->AddProcessor(pic.render_ctx, index);
 
   m_pRenderer->ReleaseImage(index, false);
 
